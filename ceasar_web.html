@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceasar encrypt - decrypt</title>
+</head>
+<body>
+    <form>
+        <input type="text" id="message1" onblur="encryptCaesar(this),3">
+        <input type="text" id="message2">
+    </form>
+<script>
+function encryptCaesar(e, shift) {
+    let plaintext = e.value;
+    let encryptedText = "";
+    for (let i = 0; i < plaintext.length; i++) {
+        let char = plaintext.charAt(i);
+        if (char.match(/[a-zA-Z]/)) {
+            // Bepaal of het karakter een hoofdletter of een kleine letter is
+            let isUpper = char === char.toUpperCase();
+
+            // Versleutel het karakter
+            let charCode = char.charCodeAt(0) + shift;
+            if (isUpper) {
+                if (charCode > 'Z'.charCodeAt(0)) {
+                    charCode -= 26;
+                }
+            } else {
+                if (charCode > 'z'.charCodeAt(0)) {
+                    charCode -= 26;
+                }
+            }
+
+            encryptedText += String.fromCharCode(charCode);
+        } else {
+            // Als het geen letter is, voeg het onveranderd toe aan de versleutelde tekst
+            encryptedText += char;
+        }
+    }
+    return encryptedText;
+}
+
+function decryptCaesar(ciphertext, shift) {
+    // Decriptie is hetzelfde als encryptie met een negatieve verschuiving
+    return encryptCaesar(ciphertext, -shift);
+}
+
+// Voorbeeldgebruik
+let message = "Dit is een geheim bericht.";
+let shiftValue = 3;
+
+// Versleutelen
+let encryptedMessage = encryptCaesar(message, shiftValue);
+console.log("Versleutelde tekst:", encryptedMessage);
+
+// Ontsleutelen
+let decryptedMessage = decryptCaesar(encryptedMessage, shiftValue);
+console.log("Ontsleutelde tekst:", decryptedMessage);
+
+</script>
+</body>
+</html>
