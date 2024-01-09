@@ -7,8 +7,8 @@
 </head>
 <body>
     <form>
-        <input type="text" id="message1" onblur="encryptCaesar(this),3">
-        <input type="text" id="message2">
+        <input type="text" id="message1" oninput="encryptCaesar(this,3)">
+        <input type="text" id="message2" oninput="decryptCaesar(this,3)">
     </form>
 <script>
 function encryptCaesar(e, shift) {
@@ -16,12 +16,14 @@ function encryptCaesar(e, shift) {
     let encryptedText = "";
     for (let i = 0; i < plaintext.length; i++) {
         let char = plaintext.charAt(i);
+       
         if (char.match(/[a-zA-Z]/)) {
             // Bepaal of het karakter een hoofdletter of een kleine letter is
             let isUpper = char === char.toUpperCase();
 
             // Versleutel het karakter
             let charCode = char.charCodeAt(0) + shift;
+
             if (isUpper) {
                 if (charCode > 'Z'.charCodeAt(0)) {
                     charCode -= 26;
@@ -38,7 +40,10 @@ function encryptCaesar(e, shift) {
             encryptedText += char;
         }
     }
-    return encryptedText;
+    //return encryptedText;
+    if (e.id == "message1") document.getElementById("message2").value = encryptedText;
+    if (e.id == "message2") document.getElementById("message1").value = encryptedText;  
+    
 }
 
 function decryptCaesar(ciphertext, shift) {
@@ -46,17 +51,6 @@ function decryptCaesar(ciphertext, shift) {
     return encryptCaesar(ciphertext, -shift);
 }
 
-// Voorbeeldgebruik
-let message = "Dit is een geheim bericht.";
-let shiftValue = 3;
-
-// Versleutelen
-let encryptedMessage = encryptCaesar(message, shiftValue);
-console.log("Versleutelde tekst:", encryptedMessage);
-
-// Ontsleutelen
-let decryptedMessage = decryptCaesar(encryptedMessage, shiftValue);
-console.log("Ontsleutelde tekst:", decryptedMessage);
 
 </script>
 </body>
